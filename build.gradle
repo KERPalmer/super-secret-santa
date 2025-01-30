@@ -18,13 +18,33 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// Spring Boot Starter Web (for REST API)
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+	// Spring Boot Starter Security (for authentication)
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Spring Boot Starter Data JPA (for database interactions)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// H2 Database (for development/testing)
+	runtimeOnly 'com.h2database:h2'
+
+	// PostgreSQL (for production)
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Thymeleaf (for frontend, optional)
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// Lombok (to reduce boilerplate code)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Spring Boot Starter Test (for unit tests)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Spring Security Test (for authentication testing)
 	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
