@@ -2,20 +2,16 @@ package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.Models.User;
 import com.kenanpalmer.super_secret_santa.Repositories.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public User registerUser(User user){
@@ -23,7 +19,7 @@ public class UserService {
             return userRepository.save(user);
         }
         catch(Exception e) {
-            System.out.println("ERROR IN SAVING USER FROM PREMADE USER INSTANCE");
+            System.out.println("ERROR IN SAVING USER FROM PRE-MADE USER INSTANCE");
             throw new RuntimeException(e);
         }
     }
