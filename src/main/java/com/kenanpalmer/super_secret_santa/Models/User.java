@@ -3,22 +3,31 @@ package com.kenanpalmer.super_secret_santa.Models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
-    private String role;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Circle> circles = new HashSet<>();
+
 
     public User(){};
 
-    public User(String username, String password, String role){
+    public User(String username, String password){
         this.username = username;
         this.password = password;
-        this.role = role;
     }
 
     public Long getId() {
@@ -45,11 +54,4 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
