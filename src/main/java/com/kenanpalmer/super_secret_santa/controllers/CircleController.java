@@ -31,4 +31,10 @@ public class CircleController {
     public Circle createCircle(@RequestBody Circle circle){
         return circleService.createCircle(circle);
     }
+
+    @PostMapping("/{circleName}")
+    public Circle addUserToCircle(@PathVariable String circleName, @RequestBody String username){
+        System.out.println("THIS IS A USERNAME IN CONTROLLER: " + username);
+        return circleService.addUserToCircle(circleName, username);
+    }
 }
