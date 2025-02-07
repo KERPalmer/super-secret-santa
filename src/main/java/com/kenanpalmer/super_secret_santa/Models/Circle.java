@@ -1,5 +1,6 @@
 package com.kenanpalmer.super_secret_santa.Models;
 
+import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -18,7 +19,7 @@ public class Circle {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "circle_id")
     )
-    private Set<User> users = new HashSet<>();
+    private Set<UserSummaryDTO> users = new HashSet<>();
 
     public Circle(){}
     public Circle(String circleName){
@@ -33,15 +34,21 @@ public class Circle {
 
     public void setId(Long id) {this.id = id;}
 
-    public Set<User> getUsers() {
+    public Set<UserSummaryDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<UserSummaryDTO> users) {
         this.users = users;
     }
 
     public void addUserToCircle(User user){
-        users.add(user);
+
+        UserSummaryDTO userSummaryDTO = new UserSummaryDTO(
+                user.getId(),
+                user.getPassword()
+        );
+
+        users.add(userSummaryDTO);
     }
 }

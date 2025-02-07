@@ -1,7 +1,12 @@
 package com.kenanpalmer.super_secret_santa.controllers;
 
 import com.kenanpalmer.super_secret_santa.Models.Circle;
+import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
 import com.kenanpalmer.super_secret_santa.services.CircleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +15,7 @@ import java.util.List;
 @RequestMapping("/circles")
 public class CircleController {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(CircleController.class);
     private final CircleService circleService;
 
 
@@ -18,23 +24,26 @@ public class CircleController {
     }
 
     @GetMapping()
-    public List<Circle> getAllCircles(){
-        return circleService.getAllCircles();
+    public ResponseEntity<List<Circle>> getAllCircles(){
+        return ResponseEntity.ok()
+                .body(circleService.getAllCircles());
     }
 
     @GetMapping("/{circleName}")
-    public Circle getCircleByName(@PathVariable String circleName){
-        return circleService.getCircleByName(circleName);
+    public ResponseEntity<Circle> getCircleByName(@PathVariable String circleName){
+        return ResponseEntity.ok()
+                .body(circleService.getCircleByName(circleName));
     }
 
     @PostMapping()
-    public Circle createCircle(@RequestBody Circle circle){
-        return circleService.createCircle(circle);
+    public ResponseEntity<Circle> createCircle(@RequestBody Circle circle){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(circleService.createCircle(circle));
     }
 
     @PostMapping("/{circleName}")
-    public Circle addUserToCircle(@PathVariable String circleName, @RequestBody String username){
-        System.out.println("THIS IS A USERNAME IN CONTROLLER: " + username);
-        return circleService.addUserToCircle(circleName, username);
+    public ResponseEntity<Circle> addUserToCircle(@PathVariable String circleName, @RequestBody UsernameDTO usernameDTO){
+        return  ResponseEntity.status(HttpStatus.CREATED)
+                .body(circleService.addUserToCircle(circleName, usernameDTO));
     }
 }

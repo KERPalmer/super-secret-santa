@@ -2,12 +2,15 @@ package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.Models.User;
 import com.kenanpalmer.super_secret_santa.Repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
+    private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -19,12 +22,12 @@ public class UserService {
             return userRepository.save(user);
         }
         catch(Exception e) {
-            System.out.println("ERROR IN SAVING USER FROM PRE-MADE USER INSTANCE");
             throw new RuntimeException(e);
         }
     }
 
     public User registerUser(String username, String password){
+        LOGGER.info("attempting to new user created with username: {}, password: {}", username, password);
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);

@@ -4,6 +4,7 @@ import com.kenanpalmer.super_secret_santa.Models.Circle;
 import com.kenanpalmer.super_secret_santa.Models.User;
 import com.kenanpalmer.super_secret_santa.Repositories.CircleRepository;
 import com.kenanpalmer.super_secret_santa.Repositories.UserRepository;
+import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,10 +36,10 @@ public class CircleService {
         }
     }
 
-    public Circle addUserToCircle(String circleName, String username){
+    public Circle addUserToCircle(String circleName, UsernameDTO usernameDTO){
         System.out.println("THIS IS A CIRCLENAME FROM SERVICE" + circleName);
-        System.out.println("THIS IS A USER FROM SERVICE" + username);
-        User user = userService.getUserByUsername(username);
+        System.out.println("THIS IS A USER FROM SERVICE" + usernameDTO);
+        User user = userService.getUserByUsername(usernameDTO.getUsername());
         Circle circle = getCircleByName(circleName);
         circle.addUserToCircle(user);
         try{
