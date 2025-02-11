@@ -19,7 +19,7 @@ public class Circle {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "circle_id")
     )
-    private Set<UserSummaryDTO> users = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public Circle(){}
     public Circle(String circleName){
@@ -34,21 +34,15 @@ public class Circle {
 
     public void setId(Long id) {this.id = id;}
 
-    public Set<UserSummaryDTO> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<UserSummaryDTO> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 
     public void addUserToCircle(User user){
-
-        UserSummaryDTO userSummaryDTO = new UserSummaryDTO(
-                user.getId(),
-                user.getPassword()
-        );
-
-        users.add(userSummaryDTO);
+        users.add(user);
     }
 }

@@ -1,5 +1,7 @@
 package com.kenanpalmer.super_secret_santa.dto;
 
+import com.kenanpalmer.super_secret_santa.Models.User;
+
 public class UserSummaryDTO {
     private Long id;
     private String username;
@@ -10,6 +12,11 @@ public class UserSummaryDTO {
     public UserSummaryDTO(Long id, String username) {
         this.id = id;
         this.username = username;
+    }
+
+    public UserSummaryDTO(User user){
+        this.id = user.getId();
+        this.username = user.getUsername();
     }
 
     public Long getId() {
