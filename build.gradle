@@ -22,7 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	// Spring Boot Starter Security (for authentication)
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// Spring Boot Starter Data JPA (for database interactions)
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,6 +45,10 @@ dependencies {
 
 	// Spring Security Test (for authentication testing)
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	//test frameworks including JUnit 5, Mockito and AssertJ
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Includes JUnit 5, Mockito, and AssertJ
+	testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 tasks.named('test') {

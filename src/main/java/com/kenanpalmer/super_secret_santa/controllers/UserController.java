@@ -1,6 +1,7 @@
 package com.kenanpalmer.super_secret_santa.controllers;
 
 import com.kenanpalmer.super_secret_santa.Models.User;
+import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<UserSummaryDTO> createUser(@RequestBody User user){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userService.registerUser(user));
     }
