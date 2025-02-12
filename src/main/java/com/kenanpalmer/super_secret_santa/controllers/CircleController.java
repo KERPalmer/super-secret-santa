@@ -1,6 +1,7 @@
 package com.kenanpalmer.super_secret_santa.controllers;
 
 import com.kenanpalmer.super_secret_santa.Models.Circle;
+import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
 import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
 import com.kenanpalmer.super_secret_santa.services.CircleService;
 import org.slf4j.Logger;
@@ -24,13 +25,13 @@ public class CircleController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Circle>> getAllCircles(){
+    public ResponseEntity<List<CircleDTO>> getAllCircles(){
         return ResponseEntity.ok()
                 .body(circleService.getAllCircles());
     }
 
     @GetMapping("/{circleName}")
-    public ResponseEntity<Circle> getCircleByName(@PathVariable String circleName){
+    public ResponseEntity<CircleDTO> getCircleByName(@PathVariable String circleName){
         return ResponseEntity.ok()
                 .body(circleService.getCircleByName(circleName));
     }
@@ -42,7 +43,7 @@ public class CircleController {
     }
 
     @PostMapping("/{circleName}")
-    public ResponseEntity<Circle> addUserToCircle(@PathVariable String circleName, @RequestBody UsernameDTO usernameDTO){
+    public ResponseEntity<CircleDTO> addUserToCircle(@PathVariable String circleName, @RequestBody UsernameDTO usernameDTO){
         return  ResponseEntity.status(HttpStatus.CREATED)
                 .body(circleService.addUserToCircle(circleName, usernameDTO));
     }

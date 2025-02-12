@@ -9,6 +9,7 @@ import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CircleService {
@@ -20,12 +21,13 @@ public class CircleService {
         this.userService = userService;
     }
 
-    public List<Circle> getAllCircles(){
-        return circleRepository.findAll();
+    public List<CircleDTO> getAllCircles(){
+        return circleRepository.findAll().stream().map(CircleDTO::new).toList();
     }
 
-    public Circle getCircleByName(String circleName){
-        return circleRepository.findByName(circleName).orElse(null);
+    public CircleDTO getCircleByName(String circleName){
+        Optional<Circle> circle = circleRepository.findByName(circleName);
+        return circle.map(CircleDTO::new).orElse(null);
     }
 
     public Circle createCircle(Circle circle){
@@ -41,7 +43,7 @@ public class CircleService {
         System.out.println("THIS IS A CIRCLE NAME FROM SERVICE" + circleName);
         System.out.println("THIS IS A USER FROM SERVICE" + usernameDTO);
         User user = userService.getUserByUsername(usernameDTO.getUsername());
-        Circle circle = getCircleByName(circleName);
+        Circle circle = getRawCircleByName(circleName);
         circle.addUserToCircle(user);
         try{
             circleRepository.save(circle);
@@ -50,5 +52,9 @@ public class CircleService {
         }
 
         return new CircleDTO(circle);
+    }
+
+    private Circle getRawCircleByName(String circleName){
+        return circleRepository.findByName(circleName).orElse(null);
     }
 }
