@@ -1,6 +1,6 @@
 package com.kenanpalmer.super_secret_santa.controllers;
 
-import com.kenanpalmer.super_secret_santa.Models.Circle;
+import com.kenanpalmer.super_secret_santa.models.Circle;
 import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
 import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
 import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;

@@ -1,6 +1,6 @@
-package com.kenanpalmer.super_secret_santa.Repositories;
+package com.kenanpalmer.super_secret_santa.repositories;
 
-import com.kenanpalmer.super_secret_santa.Models.Circle;
+import com.kenanpalmer.super_secret_santa.models.Circle;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

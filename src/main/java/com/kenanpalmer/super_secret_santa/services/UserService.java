@@ -1,7 +1,7 @@
 package com.kenanpalmer.super_secret_santa.services;
 
-import com.kenanpalmer.super_secret_santa.Models.User;
-import com.kenanpalmer.super_secret_santa.Repositories.UserRepository;
+import com.kenanpalmer.super_secret_santa.models.User;
+import com.kenanpalmer.super_secret_santa.repositories.UserRepository;
 import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverter;
 import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
 import org.slf4j.Logger;
@@ -52,6 +52,10 @@ public class UserService {
 
     public List<User> findAllUsersById(List<Long> userIds){
         return userRepository.findAllById(userIds).stream().toList();
+    }
+
+    public User findUserByID(Long id){
+        return userRepository.findById(id).orElse(null);
     }
 
     public User findUserByUsername(String username) {

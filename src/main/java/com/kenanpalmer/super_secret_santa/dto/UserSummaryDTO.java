@@ -1,6 +1,6 @@
 package com.kenanpalmer.super_secret_santa.dto;
 
-import com.kenanpalmer.super_secret_santa.Models.User;
+import com.kenanpalmer.super_secret_santa.models.User;
 
 public class UserSummaryDTO {
     private Long id;

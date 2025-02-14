@@ -1,7 +1,7 @@
 package com.kenanpalmer.super_secret_santa.converter;
 
 
-import com.kenanpalmer.super_secret_santa.Models.User;
+import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

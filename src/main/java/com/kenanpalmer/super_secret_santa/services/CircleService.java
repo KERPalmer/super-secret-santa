@@ -1,20 +1,23 @@
 package com.kenanpalmer.super_secret_santa.services;
 
-import com.kenanpalmer.super_secret_santa.Models.Circle;
-import com.kenanpalmer.super_secret_santa.Models.User;
-import com.kenanpalmer.super_secret_santa.Repositories.CircleRepository;
 import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
 import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
 import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
+import com.kenanpalmer.super_secret_santa.models.Circle;
+import com.kenanpalmer.super_secret_santa.models.User;
+import com.kenanpalmer.super_secret_santa.repositories.CircleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CircleService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CircleService.class);
+    
     private final CircleRepository circleRepository;
     private final UserService userService;
 
@@ -34,20 +37,21 @@ public class CircleService {
 
     public Circle createCircle(CircleRequestDTO circleRequestDTO){
         List<User> users = userService.findAllUsersById(circleRequestDTO.getUsersID());
-        Circle circle = new Circle(circleRequestDTO.getName());
+        User owner = userService.findUserByID(circleRequestDTO.getOwner());
+        Circle circle = new Circle(circleRequestDTO.getName(), owner);
         circle.setUsers(new HashSet<>(users));
 
         try{
             return circleRepository.save(circle);
         }catch (Exception e){
-            System.out.println("ERROR IN SAVING CIRCLE FROM PRE-MADE CIRCLE INSTANCE");
+            LOGGER.info("ERROR IN SAVING CIRCLE FROM PRE-MADE CIRCLE INSTANCE");
             throw new RuntimeException(e);
         }
     }
 
     public CircleDTO addUserToCircle(String circleName, UsernameDTO usernameDTO){
-        System.out.println("THIS IS A CIRCLE NAME FROM SERVICE" + circleName);
-        System.out.println("THIS IS A USER FROM SERVICE" + usernameDTO);
+        LOGGER.info("THIS IS A CIRCLE NAME FROM SERVICE {}", circleName);
+        LOGGER.info("THIS IS A USER FROM SERVICE {}", usernameDTO);
         User user = userService.findUserByUsername(usernameDTO.getUsername());
         Circle circle = getRawCircleByName(circleName);
         circle.addUserToCircle(user);

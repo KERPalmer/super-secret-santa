@@ -1,9 +1,11 @@
-package com.kenanpalmer.super_secret_santa.Models;
+package com.kenanpalmer.super_secret_santa.models;
 
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +24,8 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private Set<Circle> circles = new HashSet<>();
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Circle> ownedCircles = new HashSet<>();
 
     public User(){};
 

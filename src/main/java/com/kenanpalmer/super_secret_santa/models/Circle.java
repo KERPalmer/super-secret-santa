@@ -1,6 +1,5 @@
-package com.kenanpalmer.super_secret_santa.Models;
+package com.kenanpalmer.super_secret_santa.models;
 
-import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -15,16 +14,23 @@ public class Circle {
 
     @ManyToMany
     @JoinTable(
-            name = "CircleMembers",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "circle_id")
+            name = "circle_members",
+            joinColumns = @JoinColumn(name = "circle_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
     public Circle(){}
-    public Circle(String circleName){
+
+    public Circle(String circleName, User owner){
         this.name = circleName;
+        this.owner = owner;
     }
+
 
     public String getName() {return name;}
 
@@ -40,6 +46,14 @@ public class Circle {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public void addUserToCircle(User user){
