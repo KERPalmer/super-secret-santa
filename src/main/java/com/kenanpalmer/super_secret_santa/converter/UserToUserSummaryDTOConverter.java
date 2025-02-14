@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class UserToUserSummaryDTOConverter implements Converter<User, UserSummaryDTO> {
 
     @Override
-    public UserSummaryDTO convert(User user){
-        return new UserSummaryDTO(user.getId(), user.getUsername());
+    public UserSummaryDTO convert(User source){
+        return new UserSummaryDTO(source.getId(), source.getUsername());
     }
 
 }

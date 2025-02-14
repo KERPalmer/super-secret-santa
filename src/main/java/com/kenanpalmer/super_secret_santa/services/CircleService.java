@@ -3,13 +3,15 @@ package com.kenanpalmer.super_secret_santa.services;
 import com.kenanpalmer.super_secret_santa.Models.Circle;
 import com.kenanpalmer.super_secret_santa.Models.User;
 import com.kenanpalmer.super_secret_santa.Repositories.CircleRepository;
-import com.kenanpalmer.super_secret_santa.Repositories.UserRepository;
 import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
+import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
 import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CircleService {
@@ -30,7 +32,11 @@ public class CircleService {
         return circle.map(CircleDTO::new).orElse(null);
     }
 
-    public Circle createCircle(Circle circle){
+    public Circle createCircle(CircleRequestDTO circleRequestDTO){
+        List<User> users = userService.findAllUsersById(circleRequestDTO.getUsersID());
+        Circle circle = new Circle(circleRequestDTO.getName());
+        circle.setUsers(new HashSet<>(users));
+
         try{
             return circleRepository.save(circle);
         }catch (Exception e){
@@ -42,7 +48,7 @@ public class CircleService {
     public CircleDTO addUserToCircle(String circleName, UsernameDTO usernameDTO){
         System.out.println("THIS IS A CIRCLE NAME FROM SERVICE" + circleName);
         System.out.println("THIS IS A USER FROM SERVICE" + usernameDTO);
-        User user = userService.getUserByUsername(usernameDTO.getUsername());
+        User user = userService.findUserByUsername(usernameDTO.getUsername());
         Circle circle = getRawCircleByName(circleName);
         circle.addUserToCircle(user);
         try{

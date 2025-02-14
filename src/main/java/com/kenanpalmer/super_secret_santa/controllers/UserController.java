@@ -24,13 +24,13 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<List<User>> getAllUsers(){
         return ResponseEntity
-                .ok(userService.getAllUsers());
+                .ok(userService.findAllUsers());
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username){
         return ResponseEntity
-                .ok(userService.getUserByUsername(username));
+                .ok(userService.findUserByUsername(username));
     }
 
     @PostMapping()

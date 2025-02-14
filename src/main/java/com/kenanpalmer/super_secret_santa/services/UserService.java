@@ -46,11 +46,15 @@ public class UserService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> findAllUsers(){
         return userRepository.findAll();
     }
 
-    public User getUserByUsername(String username) {
+    public List<User> findAllUsersById(List<Long> userIds){
+        return userRepository.findAllById(userIds).stream().toList();
+    }
+
+    public User findUserByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
     }
 }

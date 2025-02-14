@@ -2,6 +2,7 @@ package com.kenanpalmer.super_secret_santa.controllers;
 
 import com.kenanpalmer.super_secret_santa.Models.Circle;
 import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
+import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
 import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
 import com.kenanpalmer.super_secret_santa.services.CircleService;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class CircleController {
     }
 
     @PostMapping()
-    public ResponseEntity<Circle> createCircle(@RequestBody Circle circle){
+    public ResponseEntity<Circle> createCircle(@RequestBody CircleRequestDTO circle){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(circleService.createCircle(circle));
     }
