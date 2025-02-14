@@ -4,9 +4,16 @@ import java.util.List;
 
 public class CircleRequestDTO {
     private String name;
+    private Long owner;
     private List<Long> usersID;
 
     public CircleRequestDTO() {
+    }
+
+    public CircleRequestDTO(String name, Long owner, List<Long> usersID) {
+        this.name = name;
+        this.owner = owner;
+        this.usersID = usersID;
     }
 
     public CircleRequestDTO(List<Long> usersID, String name) {
@@ -38,4 +45,11 @@ public class CircleRequestDTO {
         this.usersID.clear();
     }
 
+    public Long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Long owner) {
+        this.owner = owner;
+    }
 }
