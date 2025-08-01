@@ -24,21 +24,30 @@ public class Circle {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    public Circle(){}
+    public Circle() {
+    }
 
-    public Circle(String circleName, User owner){
+    public Circle(String circleName, User owner) {
         this.name = circleName;
         this.owner = owner;
     }
 
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public Long getId() {return id;}
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) {this.id = id;}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Set<User> getUsers() {
         return users;
@@ -56,7 +65,7 @@ public class Circle {
         this.owner = owner;
     }
 
-    public void addUserToCircle(User user){
+    public void addUserToCircle(User user) {
         users.add(user);
     }
 }

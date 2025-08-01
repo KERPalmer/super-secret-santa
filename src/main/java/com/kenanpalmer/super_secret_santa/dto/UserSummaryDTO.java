@@ -7,14 +7,15 @@ public class UserSummaryDTO {
     private String username;
 
 
-    public UserSummaryDTO(){}
+    public UserSummaryDTO() {
+    }
 
     public UserSummaryDTO(Long id, String username) {
         this.id = id;
         this.username = username;
     }
 
-    public UserSummaryDTO(User user){
+    public UserSummaryDTO(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
     }

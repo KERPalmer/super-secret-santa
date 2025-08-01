@@ -41,7 +41,7 @@ public class CircleRequestDTO {
         this.usersID.add(userID);
     }
 
-    public void clearUsers(){
+    public void clearUsers() {
         this.usersID.clear();
     }
 

@@ -3,9 +3,7 @@ package com.kenanpalmer.super_secret_santa.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,14 +20,15 @@ public class User {
     private String password;
 
     @ManyToMany(mappedBy = "users")
-    private Set<Circle> circles = new HashSet<>();
+    private final Set<Circle> circles = new HashSet<>();
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Circle> ownedCircles = new HashSet<>();
+    private final Set<Circle> ownedCircles = new HashSet<>();
 
-    public User(){};
+    public User() {
+    }
 
-    public User(String username, String password){
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
