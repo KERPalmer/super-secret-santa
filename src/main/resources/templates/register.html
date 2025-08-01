@@ -3,14 +3,14 @@
 <head><title>Register</title></head>
 <body>
 <h2>Register</h2>
-<form th:action="@{/register}" method="post">
-  <div><label>Username: <input type="text" name="username" /></label></div>
-  <div><label>Password: <input type="password" name="password" /></label></div>
-  <div><label>Confirm Password: <input type="password" name="confirmPassword" /></label></div>
+<form th:action="@{/register}" th:object="${userRegisterDTO}" method="post">
+  <div><label>username: <input type="text" th:field="*{username}" /></label></div>
+  <div><label>password: <input type="password" th:field="*{password}" /></label></div>
+  <div><label>repeated password: <input type="password" th:field="*{repeatedPassword}" /></label></div>
   <div><button type="submit">Register</button></div>
 
   <div th:if="${param.error}">Registration error. Try again.</div>
-  <div th:if="${param.success}">Registration successful! You can now <a th:href="@{/login}">login</a>.</div>
+  <div th:if="${param.success}">Registration successful! You can now <a th:href="@{/login}">log in</a>.</div>
 </form>
 </body>
 </html>

@@ -45,7 +45,7 @@ class UserServiceUnitTests {
         when(userRepository.save(user)).thenReturn(user);
         when(userToUserSummaryDTOConverter.convert(user))
                 .thenReturn(new UserSummaryDTO(user));
-        UserSummaryDTO result = userService.registerUser(user);
+        UserSummaryDTO result = userService.registerUser(user).get();
 
         assertThat(result).isInstanceOf(UserSummaryDTO.class);
         assertThat(result.getUsername()).isEqualTo(user.getUsername());

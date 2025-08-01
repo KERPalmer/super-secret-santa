@@ -4,6 +4,8 @@ import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverte
 import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,12 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserToUserSummaryDTOConverter userToUserSummaryDTOConverter;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
                        UserToUserSummaryDTOConverter userToUserSummaryDTOConverter) {
@@ -28,6 +33,7 @@ public class UserService {
         try {
             return Optional.ofNullable(userToUserSummaryDTOConverter.convert(userRepository.save(user)));
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return Optional.empty();
         }
     }

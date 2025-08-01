@@ -16,7 +16,7 @@ public class UserRegisterDTO {
     @NotBlank(message = "Confirm Password is required")
     private String repeatedPassword;
 
-    public UserRegisterDTO(String username, String repeatedPassword, String password) {
+    public UserRegisterDTO(String username,String password, String repeatedPassword) {
         this.username = username;
         this.repeatedPassword = repeatedPassword;
         this.password = password;
