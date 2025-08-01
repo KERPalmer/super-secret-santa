@@ -1,13 +1,14 @@
 package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverter;
-import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
+import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,12 +23,12 @@ public class UserService {
         this.userToUserSummaryDTOConverter = userToUserSummaryDTOConverter;
     }
 
-    public UserSummaryDTO registerUser(User user) {
+    public Optional<UserSummaryDTO> registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
-            return userToUserSummaryDTOConverter.convert(userRepository.save(user));
+            return Optional.ofNullable(userToUserSummaryDTOConverter.convert(userRepository.save(user)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return Optional.empty();
         }
     }
 

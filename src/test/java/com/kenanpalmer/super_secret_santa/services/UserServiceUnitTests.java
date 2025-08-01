@@ -1,7 +1,7 @@
 package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverter;
-import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
+import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

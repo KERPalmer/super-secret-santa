@@ -2,7 +2,7 @@ package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
 import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
-import com.kenanpalmer.super_secret_santa.dto.UsernameDTO;
+import com.kenanpalmer.super_secret_santa.dto.user.UsernameDTO;
 import com.kenanpalmer.super_secret_santa.models.Circle;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.repositories.CircleRepository;

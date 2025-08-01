@@ -1,5 +1,6 @@
 package com.kenanpalmer.super_secret_santa.dto;
 
+import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.models.Circle;
 import com.kenanpalmer.super_secret_santa.models.User;
 

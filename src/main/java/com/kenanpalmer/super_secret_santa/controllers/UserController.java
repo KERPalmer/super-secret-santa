@@ -1,6 +1,6 @@
 package com.kenanpalmer.super_secret_santa.controllers;
 
-import com.kenanpalmer.super_secret_santa.dto.UserSummaryDTO;
+import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.services.UserService;
 import org.slf4j.Logger;
@@ -29,10 +29,5 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.findUserByUsername(username));
-    }
-
-    @PostMapping()
-    public ResponseEntity<UserSummaryDTO> createUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(user));
     }
 }

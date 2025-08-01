@@ -1,4 +1,4 @@
-package com.kenanpalmer.super_secret_santa.dto;
+package com.kenanpalmer.super_secret_santa.dto.user;
 
 import com.kenanpalmer.super_secret_santa.models.User;
 

@@ -31,7 +31,7 @@ public class SecurityConfiguration {
 
         http
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll();
+                    auth.requestMatchers("/login","register", "/css/**", "/js/**", "/images/**").permitAll();
 
                     if (isDev) auth.requestMatchers("/h2-console/**").permitAll();
 

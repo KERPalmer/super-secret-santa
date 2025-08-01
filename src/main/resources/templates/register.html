@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Register</title></head>
+<body>
+<h2>Register</h2>
+<form th:action="@{/register}" method="post">
+  <div><label>Username: <input type="text" name="username" /></label></div>
+  <div><label>Password: <input type="password" name="password" /></label></div>
+  <div><label>Confirm Password: <input type="password" name="confirmPassword" /></label></div>
+  <div><button type="submit">Register</button></div>
+
+  <div th:if="${param.error}">Registration error. Try again.</div>
+  <div th:if="${param.success}">Registration successful! You can now <a th:href="@{/login}">login</a>.</div>
+</form>
+</body>
+</html>
