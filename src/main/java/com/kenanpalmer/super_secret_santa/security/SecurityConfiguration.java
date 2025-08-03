@@ -28,24 +28,23 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         boolean isDev = env.matchesProfiles("dev", "debug");
-
         http
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/login","/register", "/css/**", "/js/**", "/images/**").permitAll();
+            .authorizeHttpRequests(auth -> {
+                auth.requestMatchers("/login","/register", "/css/**", "/js/**", "/images/**").permitAll();
 
-                    if (isDev) auth.requestMatchers("/h2-console/**").permitAll();
+                if (isDev) auth.requestMatchers("/h2-console/**").permitAll();
 
-                    auth.anyRequest().authenticated();//any other request must be authenticated
-                })
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
-                        .permitAll()
-                )
-                .logout(LogoutConfigurer::permitAll)
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .headers(headers ->
-                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+                auth.anyRequest().authenticated();//any other request must be authenticated
+            })
+            .formLogin(form -> form
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/home", true)
+                    .permitAll()
+            )
+            .logout(LogoutConfigurer::permitAll)
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+            .headers(headers ->
+                    headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         return http.build();
     }
