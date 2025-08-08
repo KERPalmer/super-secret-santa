@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CircleService {
@@ -33,6 +34,13 @@ public class CircleService {
     public CircleDTO getCircleByName(String circleName) {
         Optional<Circle> circle = circleRepository.findByName(circleName);
         return circle.map(CircleDTO::new).orElse(null);
+    }
+
+    public List<CircleDTO> getCirclesByUsername(String username){
+        return getAllCircles().stream()
+                .filter(circle -> circle.getUsers().stream()
+                        .anyMatch(user -> user.getUsername().equals(username)))
+                .collect(Collectors.toList());
     }
 
     public Circle createCircle(CircleRequestDTO circleRequestDTO) {
