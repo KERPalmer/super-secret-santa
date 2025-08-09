@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Circle</title>
+    <style>
+        /* Minimal styling so it looks OK out of the box */
+        body { font-family: Arial, Helvetica, sans-serif; margin: 20px; }
+        .field { margin-bottom: 12px; }
+        label { display:block; margin-bottom:4px; font-weight:600; }
+        input[type="text"], textarea { width: 320px; padding:6px; }
+        .search-results, .selected-users { margin-top:8px; }
+        .user-item { padding:6px; border:1px solid #ddd; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; width:360px; }
+        .btn { padding:6px 10px; cursor:pointer; }
+        .btn-add { background:#2d8; border:0; }
+        .btn-remove { background:#f55; color:#fff; border:0; }
+    </style>
+</head>
+<body>
+<h1>Create a New Circle</h1>
+
+<form th:action="@{/circles}" th:object="${circle}" method="post" id="createCircleForm">
+    <!-- CSRF token (Spring Security) -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div class="field">
+        <label for="name">Circle Name</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="e.g. Chess Club" required />
+    </div>
+
+    <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" th:field="*{description}" placeholder="Describe the circle..."></textarea>
+    </div>
+
+    <div class="field">
+        <label for="userSearch">Add users by username</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+            <input type="text" id="userSearch" placeholder="Search username..." />
+            <button type="button" id="searchBtn" class="btn">Search</button>
+        </div>
+
+        <div class="search-results" id="searchResults" aria-live="polite"></div>
+
+        <h4>Selected Users</h4>
+        <div class="selected-users" id="selectedUsers"></div>
+    </div>
+
+    <div style="margin-top:14px;">
+        <button type="submit" class="btn">Save Circle</button>
+        <a th:href="@{/home}" style="margin-left:12px;">Cancel</a>
+    </div>
+</form>
+
+<script>
+    /*
+     Expected server endpoint:
+       GET /users/search?username=someText
+     Response JSON example: [{ "id": 123, "username": "alice" }, { "id": 456, "username": "bob" }]
+    */
+
+    const searchBtn = document.getElementById('searchBtn');
+    const userSearch = document.getElementById('userSearch');
+    const searchResults = document.getElementById('searchResults');
+    const selectedUsers = document.getElementById('selectedUsers');
+
+    // Keep a map to prevent duplicates: id -> username
+    const selectedMap = new Map();
+
+    searchBtn.addEventListener('click', doSearch);
+    userSearch.addEventListener('keydown', function(e){
+        if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
+    });
+
+    function doSearch() {
+        const q = userSearch.value.trim();
+        searchResults.innerHTML = '';
+        if (!q) {
+            searchResults.innerText = 'Enter a username to search.';
+            return;
+        }
+
+        // Adjust the URL to match your backend search endpoint
+        fetch(`/users/search?username=${encodeURIComponent(q)}`)
+            .then(resp => {
+                if (!resp.ok) throw new Error('Search failed');
+                return resp.json();
+            })
+            .then(users => {
+                if (!Array.isArray(users) || users.length === 0) {

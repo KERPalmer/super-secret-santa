@@ -10,15 +10,28 @@ import java.util.stream.Collectors;
 public class CircleDTO {
     private Long id;
     private String name;
+    private String description;
+    private Boolean active;
     private Set<UserSummaryDTO> users;
     private User owner;
 
     public CircleDTO() {
     }
 
+    public CircleDTO(Long id, String name, String description, Boolean active, Set<UserSummaryDTO> users, User owner) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.active = active;
+        this.users = users;
+        this.owner = owner;
+    }
+
     public CircleDTO(Circle circle) {
         this.id = circle.getId();
         this.name = circle.getName();
+        this.description = circle.getDescription();
+        this.active = circle.getActive();
         this.users = circle.getUsers().stream().map(UserSummaryDTO::new)
                 .collect(Collectors.toSet());
         this.owner = circle.getOwner();

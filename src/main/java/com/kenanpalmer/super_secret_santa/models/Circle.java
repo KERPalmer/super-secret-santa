@@ -11,6 +11,8 @@ public class Circle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String Description;
+    private Boolean active;
 
     @ManyToMany
     @JoinTable(
@@ -32,6 +34,14 @@ public class Circle {
         this.owner = owner;
     }
 
+    public Circle(Long id, String name, String description, Boolean active, Set<User> users, User owner) {
+        this.id = id;
+        this.name = name;
+        Description = description;
+        this.active = active;
+        this.users = users;
+        this.owner = owner;
+    }
 
     public String getName() {
         return name;
@@ -67,5 +77,21 @@ public class Circle {
 
     public void addUserToCircle(User user) {
         users.add(user);
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

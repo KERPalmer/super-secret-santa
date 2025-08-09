@@ -1,5 +1,6 @@
 package com.kenanpalmer.super_secret_santa.services;
 
+import com.kenanpalmer.super_secret_santa.converter.CircleRequestDTOToCircleConverter;
 import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
 import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
 import com.kenanpalmer.super_secret_santa.dto.user.UsernameDTO;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,10 +19,12 @@ import java.util.stream.Collectors;
 public class CircleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CircleService.class);
 
+    private final CircleRequestDTOToCircleConverter circleRequestDTOToCircleConverter;
     private final CircleRepository circleRepository;
     private final UserService userService;
 
-    public CircleService(CircleRepository circleRepository, UserService userService) {
+    public CircleService(CircleRequestDTOToCircleConverter circleRequestDTOToCircleConverter, CircleRepository circleRepository, UserService userService) {
+        this.circleRequestDTOToCircleConverter = circleRequestDTOToCircleConverter;
         this.circleRepository = circleRepository;
         this.userService = userService;
     }
@@ -43,11 +45,8 @@ public class CircleService {
                 .collect(Collectors.toList());
     }
 
-    public Circle createCircle(CircleRequestDTO circleRequestDTO) {
-        List<User> users = userService.findAllUsersById(circleRequestDTO.getUsersID());
-        User owner = userService.findUserByID(circleRequestDTO.getOwner());
-        Circle circle = new Circle(circleRequestDTO.getName(), owner);
-        circle.setUsers(new HashSet<>(users));
+    public Circle createCircle(CircleRequestDTO circleRequestDTO, String ownerUsername) {
+        Circle circle = circleRequestDTOToCircleConverter.convert(circleRequestDTO);
 
         try {
             return circleRepository.save(circle);
@@ -58,8 +57,6 @@ public class CircleService {
     }
 
     public CircleDTO addUserToCircle(String circleName, UsernameDTO usernameDTO) {
-        LOGGER.info("THIS IS A CIRCLE NAME FROM SERVICE {}", circleName);
-        LOGGER.info("THIS IS A USER FROM SERVICE {}", usernameDTO);
         User user = userService.findUserByUsername(usernameDTO.getUsername());
         Circle circle = getRawCircleByName(circleName);
         circle.addUserToCircle(user);
@@ -75,4 +72,6 @@ public class CircleService {
     private Circle getRawCircleByName(String circleName) {
         return circleRepository.findByName(circleName).orElse(null);
     }
+
+
 }
