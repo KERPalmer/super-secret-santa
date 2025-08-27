@@ -2,15 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Spring Boot Web Page</title>
+    <style>
+        .circle-bar {
+            display: block;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+        .circle-bar:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
 <h1>Hello <span th:text="${username}">User</span>!</h1>
 
 <!-- list of circles the user is in -->
 <h2>Your Circles:</h2>
-<ul>
-    <li th:each="circle : ${circles}" th:text="${circle.name}">Circle Name</li>
-</ul>
+<div>
+    <a th:each="circle : ${circles}"
+       th:href="@{/circles/{id}(id=${circle.id})}"
+       th:text="${circle.name}"
+       class="circle-bar">
+        Circle Name
+    </a>
+</div>
 
 <!-- Button to Create Circle -->
 <form th:action="@{/circles/create}" method="get">

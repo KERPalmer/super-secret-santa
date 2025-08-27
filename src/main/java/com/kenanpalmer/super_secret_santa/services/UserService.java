@@ -62,4 +62,10 @@ public class UserService {
     public List<User> findUsersByIDs(List<Long> ids){
         return userRepository.findAllById(ids);
     }
+
+    public List<UserSummaryDTO> searchByUsername(String query){
+        return userRepository.findAll().stream()
+                .filter(user -> user.getUsername().contains(query))
+                .map(userToUserSummaryDTOConverter::convert).toList();
+    }
 }

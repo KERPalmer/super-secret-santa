@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Create Circle</title>
     <style>
-        /* Minimal styling so it looks OK out of the box */
         body { font-family: Arial, Helvetica, sans-serif; margin: 20px; }
         .field { margin-bottom: 12px; }
         label { display:block; margin-bottom:4px; font-weight:600; }
@@ -12,8 +11,11 @@
         .search-results, .selected-users { margin-top:8px; }
         .user-item { padding:6px; border:1px solid #ddd; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; width:360px; }
         .btn { padding:6px 10px; cursor:pointer; }
-        .btn-add { background:#2d8; border:0; }
+        .btn-add { background:#2d8; border:0; color:#fff; }
         .btn-remove { background:#f55; color:#fff; border:0; }
+        ul.dropdown { list-style:none; padding:0; margin:0; border:1px solid #ccc; max-width:320px; }
+        ul.dropdown li { padding:6px; cursor:pointer; background:#fff; }
+        ul.dropdown li:hover { background:#eee; }
     </style>
 </head>
 <body>
@@ -40,7 +42,7 @@
             <button type="button" id="searchBtn" class="btn">Search</button>
         </div>
 
-        <div class="search-results" id="searchResults" aria-live="polite"></div>
+        <div class="search-results" id="searchResults"></div>
 
         <h4>Selected Users</h4>
         <div class="selected-users" id="selectedUsers"></div>
@@ -53,38 +55,76 @@
 </form>
 
 <script>
-    /*
-     Expected server endpoint:
-       GET /users/search?username=someText
-     Response JSON example: [{ "id": 123, "username": "alice" }, { "id": 456, "username": "bob" }]
-    */
+    document.getElementById("searchBtn").addEventListener("click", async () => {
+        const query = document.getElementById("userSearch").value.trim();
+        const resultsDiv = document.getElementById("searchResults");
+        resultsDiv.innerHTML = "";
 
-    const searchBtn = document.getElementById('searchBtn');
-    const userSearch = document.getElementById('userSearch');
-    const searchResults = document.getElementById('searchResults');
-    const selectedUsers = document.getElementById('selectedUsers');
+        if (!query) return;
 
-    // Keep a map to prevent duplicates: id -> username
-    const selectedMap = new Map();
+        try {
+            // Call Spring endpoint (returns [{id:5, username:"alice"}, ...])
+            const response = await fetch(`/users/search?query=${encodeURIComponent(query)}`);
+            if (!response.ok) throw new Error("Search failed");
 
-    searchBtn.addEventListener('click', doSearch);
-    userSearch.addEventListener('keydown', function(e){
-        if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
+            const users = await response.json();
+
+            if (users.length === 0) {
+                resultsDiv.innerHTML = "<p>No results found</p>";
+                return;
+            }
+
+            const ul = document.createElement("ul");
+            ul.classList.add("dropdown");
+
+            users.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = user.username;
+                li.addEventListener("click", () => addUser(user.id, user.username));
+                ul.appendChild(li);
+            });
+
+            resultsDiv.appendChild(ul);
+
+        } catch (err) {
+            resultsDiv.innerHTML = "<p>Error fetching users</p>";
+            console.error(err);
+        }
     });
 
-    function doSearch() {
-        const q = userSearch.value.trim();
-        searchResults.innerHTML = '';
-        if (!q) {
-            searchResults.innerText = 'Enter a username to search.';
-            return;
-        }
+    function addUser(userId, username) {
+        const selectedDiv = document.getElementById("selectedUsers");
 
-        // Adjust the URL to match your backend search endpoint
-        fetch(`/users/search?username=${encodeURIComponent(q)}`)
-            .then(resp => {
-                if (!resp.ok) throw new Error('Search failed');
-                return resp.json();
-            })
-            .then(users => {
-                if (!Array.isArray(users) || users.length === 0) {
+        // prevent duplicates
+        if (document.getElementById(`user-${userId}`)) return;
+
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("user-item");
+        wrapper.id = `user-${userId}`;
+
+        const span = document.createElement("span");
+        span.textContent = username;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.classList.add("btn", "btn-remove");
+        removeBtn.type = "button";
+        removeBtn.addEventListener("click", () => wrapper.remove());
+
+        // hidden input for form submission (IDs go to DTO)
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "usersID";   // matches CircleRequestDTO
+        hiddenInput.value = userId;
+
+        wrapper.appendChild(span);
+        wrapper.appendChild(removeBtn);
+        wrapper.appendChild(hiddenInput);
+
+        selectedDiv.appendChild(wrapper);
+    }
+</script>
+</body>
+</html>
+
+
