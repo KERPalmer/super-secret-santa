@@ -1,20 +1,10 @@
 package com.kenanpalmer.super_secret_santa.converter;
 
 import com.kenanpalmer.super_secret_santa.dto.CircleResponseDTO;
-import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.exception.CircleConversionException;
 import com.kenanpalmer.super_secret_santa.models.Circle;
-import com.kenanpalmer.super_secret_santa.models.User;
-import com.kenanpalmer.super_secret_santa.services.UserService;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class CircleToCircleResponseDTOConverter

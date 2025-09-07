@@ -1,9 +1,7 @@
 package com.kenanpalmer.super_secret_santa.controllers;
 
-import com.kenanpalmer.super_secret_santa.dto.CircleDTO;
 import com.kenanpalmer.super_secret_santa.dto.CircleRequestDTO;
 import com.kenanpalmer.super_secret_santa.dto.CircleResponseDTO;
-import com.kenanpalmer.super_secret_santa.models.Circle;
 import com.kenanpalmer.super_secret_santa.services.CircleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller

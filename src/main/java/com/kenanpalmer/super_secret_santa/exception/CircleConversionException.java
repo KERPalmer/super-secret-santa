@@ -10,5 +10,6 @@ public class CircleConversionException  extends RuntimeException{
     }
 
     public CircleConversionException(Exception e) {
+        super(e);
     }
 }
