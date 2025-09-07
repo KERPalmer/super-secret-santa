@@ -2,6 +2,7 @@ package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverter;
 import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
+import com.kenanpalmer.super_secret_santa.exception.UserIdNotFoundException;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -39,28 +41,25 @@ public class UserService {
         }
     }
 
-    public User getUserById(String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
-
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    public List<User> findAllUsersById(List<Long> userIds) {
-        return userRepository.findAllById(userIds).stream().toList();
-    }
-
     public User findUserByID(Long id) {
-        return userRepository.findById(id).orElse(null);
+        try{
+            return userRepository.findById(id).orElseThrow();
+        }
+        catch(NoSuchElementException e){
+            throw new UserIdNotFoundException("User ID Not Found", e);
+        }
     }
 
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    public List<User> findUsersByIDs(List<Long> ids){
-        return userRepository.findAllById(ids);
+    public List<User> findAllUsersByIDs(List<Long> ids){
+        return ids.stream().map(this::findUserByID).toList();
     }
 
     public List<UserSummaryDTO> searchByUsername(String query){

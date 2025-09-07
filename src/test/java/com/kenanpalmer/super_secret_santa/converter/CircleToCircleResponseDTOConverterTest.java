@@ -34,7 +34,7 @@ class CircleToCircleResponseDTOConverterTest {
     }
 
     @Test
-    void convert_shouldMapCircleToResponseDTO() {
+    void convertShouldMapCircleToResponseDTO() {
         User member = new User();
         member.setId(MEMBER_ID);
 
@@ -78,11 +78,8 @@ class CircleToCircleResponseDTOConverterTest {
     }
 
     @Test
-    void convert_shouldThrowCircleConversionExceptionOnError() {
-        // Arrange
+    void convertShouldThrowCircleConversionExceptionOnError() {
         Circle badCircle = new Circle(); // Missing owner -> will cause Null Point Exception
-
-        // Act & Assert
         assertThrows(CircleConversionException.class, () -> converter.convert(badCircle));
     }
 

@@ -32,8 +32,9 @@ public class CircleRequestDTOToCircleConverter
             circle.setUsers(
                     source.getUsersID() == null || source.getUsersID().isEmpty()
                             ? new HashSet<>()
-                            : new HashSet<>(userService.findUsersByIDs(source.getUsersID()))
+                            : new HashSet<>(userService.findAllUsersByIDs(source.getUsersID()))
             );
+
             //set owner as current logged-in user
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String username = auth.getName(); // default if UserDetailsService used
