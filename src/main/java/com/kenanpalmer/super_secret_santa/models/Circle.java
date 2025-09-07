@@ -1,6 +1,7 @@
 package com.kenanpalmer.super_secret_santa.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,10 +12,11 @@ public class Circle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String Description;
+    private String description;
     private Boolean active;
 
     @ManyToMany
+    @NotNull
     @JoinTable(
             name = "circle_members",
             joinColumns = @JoinColumn(name = "circle_id"),
@@ -37,7 +39,7 @@ public class Circle {
     public Circle(Long id, String name, String description, Boolean active, Set<User> users, User owner) {
         this.id = id;
         this.name = name;
-        Description = description;
+        this.description = description;
         this.active = active;
         this.users = users;
         this.owner = owner;
@@ -60,7 +62,7 @@ public class Circle {
     }
 
     public Set<User> getUsers() {
-        return users;
+        return users == null ? new HashSet<>() : users;
     }
 
     public void setUsers(Set<User> users) {
@@ -80,11 +82,11 @@ public class Circle {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public Boolean getActive() {

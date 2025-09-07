@@ -34,12 +34,6 @@ public class CircleController {
                 .body(circleService.getAllCircles());
     }
 
-    @GetMapping("/{circleName}")
-    public ResponseEntity<CircleDTO> getCircleByName(@PathVariable String circleName) {
-        return ResponseEntity.ok()
-                .body(circleService.getCircleByName(circleName));
-    }
-
     @GetMapping("/create")
     public String showCreateCirclePage(Model model) {
         LOGGER.info("show be getting create circle page");
@@ -48,7 +42,7 @@ public class CircleController {
     }
 
     @PostMapping()
-    public ResponseEntity<Circle> createCircle(@ModelAttribute CircleRequestDTO circle) {
+    public ResponseEntity<CircleResponseDTO> createCircle(@ModelAttribute CircleRequestDTO circle) {
         LOGGER.info("creating circle with name:{}", circle.getName());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(circleService.createCircle(circle));

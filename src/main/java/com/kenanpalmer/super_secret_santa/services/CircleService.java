@@ -40,11 +40,6 @@ public class CircleService {
         return circleRepository.findAll().stream().map(circleToCircleResponseDTOConverter::convert).toList();
     }
 
-    public CircleDTO getCircleByName(String circleName) {
-        Optional<Circle> circle = circleRepository.findByName(circleName);
-        return circle.map(CircleDTO::new).orElse(null);
-    }
-
     public List<CircleResponseDTO> getCirclesByUsername(String username){
         return circleRepository.findAll().stream()
             .filter(circle -> circle.getUsers().stream()
@@ -53,9 +48,9 @@ public class CircleService {
             .toList();
     }
 
-    public Circle createCircle(CircleRequestDTO circleRequestDTO) {
+    public CircleResponseDTO createCircle(CircleRequestDTO circleRequestDTO) {
         Circle circle = circleRequestDTOToCircleConverter.convert(circleRequestDTO);
         if(circle == null) throw new CircleConversionException("Converted Circle is null");
-        return circleRepository.save(circle);
+        return circleToCircleResponseDTOConverter.convert(circleRepository.save(circle));
     }
 }

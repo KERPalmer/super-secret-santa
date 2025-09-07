@@ -5,7 +5,7 @@ import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import java.util.List;
 
 public class CircleResponseDTO {
-    private Long Id;
+    private Long id;
     private String name;
     private String description;
     private Long ownerID;
@@ -16,11 +16,11 @@ public class CircleResponseDTO {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public List<UserSummaryDTO> getUsers() {
@@ -43,14 +43,6 @@ public class CircleResponseDTO {
         this.description = description;
     }
 
-    public Long getOwner() {
-        return ownerID;
-    }
-
-    public void setOwner(Long ownerID) {
-        this.ownerID = ownerID;
-    }
-
     public Long getOwnerID() {
         return ownerID;
     }
@@ -67,6 +59,7 @@ public class CircleResponseDTO {
         this.active = active;
     }
 
-    public void setUsers(List<UserSummaryDTO> collect) {
+    public void setUsers(List<UserSummaryDTO> users) {
+        this.users = users;
     }
 }

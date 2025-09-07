@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface CircleRepository extends JpaRepository<Circle, Long> {
     Optional<Circle> findByName(String name);
+    Optional<Circle> findById(long id);
 }
