@@ -7,13 +7,14 @@ import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class CircleRequestDTOToCircleConverterTest {
 
 
@@ -37,11 +39,7 @@ class CircleRequestDTOToCircleConverterTest {
         converter = new CircleRequestDTOToCircleConverter(userService);
 
         //mock security for getting logged-in user
-        Authentication authentication = mock(Authentication.class);
-        when(authentication.getName()).thenReturn(TEST_OWNER_USERNAME);
-
         SecurityContext context = mock(SecurityContext.class);
-        when(context.getAuthentication()).thenReturn(authentication);
 
         try (MockedStatic<SecurityContextHolder> mockedSecurityContextHolder =
                      Mockito.mockStatic(SecurityContextHolder.class)) {
@@ -101,9 +99,6 @@ class CircleRequestDTOToCircleConverterTest {
         when(userService.findUserByUsername(TEST_OWNER_USERNAME))
                 .thenReturn(owner);
 
-        when(userService.findAllUsersByIDs(circleRequestDTO.getUsersID()))
-                .thenReturn(new ArrayList<>());
-
         Authentication authentication = mock(Authentication.class);
         when(authentication.getName()).thenReturn(TEST_OWNER_USERNAME);
 
@@ -132,19 +127,11 @@ class CircleRequestDTOToCircleConverterTest {
         User owner = new User();
         owner.setUsername(TEST_OWNER_USERNAME);
 
-        when(userService.findUserByUsername(TEST_OWNER_USERNAME))
-                .thenReturn(owner);
-
         Long badID = 1L;
         circleRequestDTO.setUsersID(List.of(badID));
         when(userService.findAllUsersByIDs(circleRequestDTO.getUsersID()))
                 .thenThrow(new NoSuchElementException("User ID not Found"));
-
-        Authentication authentication = mock(Authentication.class);
-        when(authentication.getName()).thenReturn(TEST_OWNER_USERNAME);
-
         SecurityContext context = mock(SecurityContext.class);
-        when(context.getAuthentication()).thenReturn(authentication);
 
         try (MockedStatic<SecurityContextHolder> mockedSecurityContextHolder =
                      Mockito.mockStatic(SecurityContextHolder.class)) {
@@ -154,8 +141,6 @@ class CircleRequestDTOToCircleConverterTest {
             assertThrows(CircleConversionException.class, () -> converter.convert(circleRequestDTO));
         }
     }
-
-
     
     private CircleRequestDTO getCircleRequestDTO(){
         CircleRequestDTO dto = new CircleRequestDTO();

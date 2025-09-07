@@ -2,6 +2,7 @@ package com.kenanpalmer.super_secret_santa.services;
 
 import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverter;
 import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
+import com.kenanpalmer.super_secret_santa.exception.UserRegistrationException;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class UserServiceUnitTests {
@@ -50,6 +56,16 @@ class UserServiceUnitTests {
         assertThat(result).isInstanceOf(UserSummaryDTO.class);
         assertThat(result.getUsername()).isEqualTo(user.getUsername());
 
+    }
+
+    @Test
+    void testRegisterUser_RepositoryThrowsException() {
+        User user = new User();
+        user.setPassword("password");
+        when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
+        when(userRepository.save(user)).thenThrow(new RuntimeException("DB error"));
+
+        assertThrows(UserRegistrationException.class, () -> userService.registerUser(user));
     }
 
 

@@ -7,7 +7,9 @@ import com.kenanpalmer.super_secret_santa.models.Circle;
 import com.kenanpalmer.super_secret_santa.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +17,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class CircleToCircleResponseDTOConverterTest {
 
     private UserToUserSummaryDTOConverter userToUserSummaryDTOConverter;

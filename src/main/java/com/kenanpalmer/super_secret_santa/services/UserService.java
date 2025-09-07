@@ -3,6 +3,7 @@ package com.kenanpalmer.super_secret_santa.services;
 import com.kenanpalmer.super_secret_santa.converter.UserToUserSummaryDTOConverter;
 import com.kenanpalmer.super_secret_santa.dto.user.UserSummaryDTO;
 import com.kenanpalmer.super_secret_santa.exception.UserIdNotFoundException;
+import com.kenanpalmer.super_secret_santa.exception.UserRegistrationException;
 import com.kenanpalmer.super_secret_santa.models.User;
 import com.kenanpalmer.super_secret_santa.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -35,9 +35,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
             return Optional.ofNullable(userToUserSummaryDTOConverter.convert(userRepository.save(user)));
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Optional.empty();
+        } catch (RuntimeException e){
+            logger.error("Error creating User: {}", e.getMessage(), e);
+            throw new UserRegistrationException("Error Creating User", e);
         }
     }
 
