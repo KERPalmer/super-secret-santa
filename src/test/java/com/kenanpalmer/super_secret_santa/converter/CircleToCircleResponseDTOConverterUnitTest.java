@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CircleToCircleResponseDTOConverterTest {
+class CircleToCircleResponseDTOConverterUnitTest {
 
     private UserToUserSummaryDTOConverter userToUserSummaryDTOConverter;
     private CircleToCircleResponseDTOConverter converter;

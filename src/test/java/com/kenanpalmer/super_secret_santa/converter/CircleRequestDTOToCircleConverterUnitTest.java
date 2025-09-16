@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CircleRequestDTOToCircleConverterTest {
+class CircleRequestDTOToCircleConverterUnitTest {
 
 
     public static final String TEST_OWNER_USERNAME = "TEST_USERNAME";
@@ -64,7 +64,7 @@ class CircleRequestDTOToCircleConverterTest {
 
         circleRequestDTO.setUsersID(Arrays.asList(1L,2L));
 
-        when(userService.findAllUsersByIDs(circleRequestDTO.getUsersID()))
+        when(userService.findListOfUsersByIDs(circleRequestDTO.getUsersID()))
                 .thenReturn(Arrays.asList(user1, user2));
 
         Authentication authentication = mock(Authentication.class);
@@ -129,7 +129,7 @@ class CircleRequestDTOToCircleConverterTest {
 
         Long badID = 1L;
         circleRequestDTO.setUsersID(List.of(badID));
-        when(userService.findAllUsersByIDs(circleRequestDTO.getUsersID()))
+        when(userService.findListOfUsersByIDs(circleRequestDTO.getUsersID()))
                 .thenThrow(new NoSuchElementException("User ID not Found"));
         SecurityContext context = mock(SecurityContext.class);
 

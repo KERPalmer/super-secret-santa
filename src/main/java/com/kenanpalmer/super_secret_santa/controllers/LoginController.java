@@ -54,6 +54,7 @@ public class LoginController {
             redirectAttributes.addAttribute(ERROR, "invalid entries");
             return "register";
         }
+
         logger.info("creating user with username {}, password: {}, repeatedPassword: {}",
                 user.getUsername(), user.getPassword(), user.getRepeatedPassword());
 
